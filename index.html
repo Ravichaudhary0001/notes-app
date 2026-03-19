@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Notes App</title>
+
+<style>
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+input{
+padding:10px;
+width:60%;
+margin:10px;
+}
+
+button{
+padding:10px;
+background:#22c55e;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+.note{
+background:#1e293b;
+margin:10px;
+padding:10px;
+border-radius:5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Notes App</h1>
+
+<input type="text" id="noteInput" placeholder="Enter note">
+<button onclick="addNote()">Add</button>
+
+<div id="notes"></div>
+
+<script>
+
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+function showNotes(){
+let notesDiv = document.getElementById("notes");
+notesDiv.innerHTML = "";
+
+notes.forEach((note,index)=>{
+notesDiv.innerHTML += `
+<div class="note">
+${note}
+<br>
+<button onclick="deleteNote(${index})">Delete</button>
+</div>
+`;
+});
+}
+
+function addNote(){
+let input = document.getElementById("noteInput");
+notes.push(input.value);
+localStorage.setItem("notes", JSON.stringify(notes));
+input.value="";
+showNotes();
+}
+
+function deleteNote(index){
+notes.splice(index,1);
+localStorage.setItem("notes", JSON.stringify(notes));
+showNotes();
+}
+
+showNotes();
+
+</script>
+
+</body>
+
+</html>
